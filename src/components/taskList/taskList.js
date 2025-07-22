@@ -1,14 +1,8 @@
-import React from "react";
-import {
-  FlatList,
-  View,
-  Text,
-  StyleSheet,
-  ActivityIndicator,
-} from "react-native";
-import TaskItem from "./taskItem";
-import { Colors } from "../constants/colors";
-import { Strings } from "../constants/strings";
+import { FlatList, View, Text, ActivityIndicator } from "react-native";
+import TaskItem from "../taskItem/taskItem";
+import { Colors } from "../../constants/colors";
+import { Strings } from "../../constants/strings";
+import styles from "./style";
 
 const TaskList = ({
   tasks,
@@ -80,46 +74,5 @@ const TaskList = ({
     />
   );
 };
-
-const styles = StyleSheet.create({
-  list: {
-    flex: 1,
-    backgroundColor: Colors.surface,
-  },
-  listContent: {
-    paddingVertical: 8,
-  },
-  emptyList: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  emptyContainer: {
-    alignItems: "center",
-    paddingVertical: 60,
-  },
-  emptyText: {
-    fontSize: 48,
-    marginBottom: 16,
-  },
-  emptyMessage: {
-    fontSize: 16,
-    color: Colors.textSecondary,
-    textAlign: "center",
-    paddingHorizontal: 32,
-  },
-  loadingFooter: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingVertical: 20,
-    paddingHorizontal: 16,
-  },
-  loadingText: {
-    marginLeft: 8,
-    fontSize: 14,
-    color: Colors.textSecondary,
-  },
-});
 
 export default TaskList;

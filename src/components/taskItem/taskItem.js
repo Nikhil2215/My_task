@@ -1,15 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Animated,
-} from "react-native";
-import { showToast } from "./toastManager";
-import { Colors } from "../constants/colors";
-import { Strings } from "../constants/strings";
-import EditTaskModal from "./editTaskModal";
+import { View, Text, TouchableOpacity, Animated } from "react-native";
+import { showToast } from "../toastManager/toastManager";
+import styles from "./style";
+import { Strings } from "../../constants/strings";
+import EditTaskModal from "../editTaskModal/editTaskModal";
 
 const TaskItem = ({ task, onToggleComplete, onDelete, onEdit }) => {
   const [showEditModal, setShowEditModal] = useState(false);
@@ -129,30 +123,29 @@ const TaskItem = ({ task, onToggleComplete, onDelete, onEdit }) => {
         <View style={[styles.checkbox, task.completed && styles.checkedBox]}>
           {task.completed && <Text style={styles.checkmark}>✓</Text>}
         </View>
+      </TouchableOpacity>
 
-        <View style={styles.taskInfo}>
-          <View style={styles.priorityIndicator}>
-            <Text style={styles.priorityEmoji}>{currentPriority.emoji}</Text>
-            <Text
-              style={[styles.priorityLabel, { color: currentPriority.color }]}
-            >
-              {currentPriority.label}
-            </Text>
-          </View>
-
+      <View style={styles.taskInfo}>
+        <View style={styles.priorityIndicator}>
+          <Text style={styles.priorityEmoji}>{currentPriority.emoji}</Text>
           <Text
-            style={[styles.taskText, task.completed && styles.completedText]}
+            style={[styles.priorityLabel, { color: currentPriority.color }]}
           >
-            {task.text}
+            {currentPriority.label}
           </Text>
         </View>
-      </TouchableOpacity>
+
+        <Text style={[styles.taskText, task.completed && styles.completedText]}>
+          {task.text}
+        </Text>
+      </View>
 
       <View style={styles.actionButtons}>
         <TouchableOpacity
-          style={styles.editButton}
+          style={[styles.editButton, task.completed && styles.disabledButton]}
           onPress={handleEdit}
           activeOpacity={0.7}
+          disabled={task.completed}
         >
           <Text style={styles.editButtonText}>✏️</Text>
         </TouchableOpacity>
@@ -174,101 +167,5 @@ const TaskItem = ({ task, onToggleComplete, onDelete, onEdit }) => {
     </Animated.View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 16,
-    backgroundColor: Colors.background,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
-    marginHorizontal: 8,
-    marginVertical: 4,
-    borderRadius: 16,
-    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-    borderLeftWidth: 4,
-    borderLeftColor: Colors.primary,
-  },
-  completedContainer: {
-    backgroundColor: Colors.completedBg,
-    borderLeftColor: Colors.success,
-    opacity: 0.8,
-  },
-  taskContent: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "flex-start",
-  },
-  checkbox: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: Colors.primary,
-    marginRight: 12,
-    marginTop: 2,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  checkedBox: {
-    backgroundColor: Colors.success,
-    borderColor: Colors.success,
-  },
-  checkmark: {
-    color: Colors.background,
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-  taskInfo: {
-    flex: 1,
-  },
-  priorityIndicator: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 4,
-  },
-  priorityEmoji: {
-    fontSize: 12,
-    marginRight: 4,
-  },
-  priorityLabel: {
-    fontSize: 10,
-    fontWeight: "600",
-    textTransform: "uppercase",
-  },
-  taskText: {
-    fontSize: 16,
-    color: Colors.text,
-    flex: 1,
-  },
-  completedText: {
-    textDecorationLine: "line-through",
-    color: Colors.completed,
-  },
-
-  actionButtons: {
-    flexDirection: "row",
-    marginLeft: 8,
-  },
-  editButton: {
-    padding: 8,
-    borderRadius: 8,
-    backgroundColor: Colors.primary,
-    marginRight: 4,
-  },
-  editButtonText: {
-    fontSize: 16,
-  },
-  deleteButton: {
-    padding: 8,
-    borderRadius: 8,
-    backgroundColor: Colors.error,
-    marginLeft: 4,
-  },
-  deleteButtonText: {
-    fontSize: 16,
-  },
-});
 
 export default TaskItem;

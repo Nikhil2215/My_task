@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { View, StyleSheet, SafeAreaView } from "react-native";
-import TaskInput from "../components/taskInput";
-import TaskList from "../components/taskList";
-import FilterTabs from "../components/filterTabs";
+import TaskInput from "../components/taskInput/taskInput";
+import TaskList from "../components/taskList/taskList";
+import FilterTabs from "../components/filterTabs/filterTabs";
 import NotificationManager from "../components/notificationManager";
 import StorageManager from "../components/storageManager";
 import { Colors } from "../constants/colors";
@@ -163,41 +163,22 @@ const TaskScreen = () => {
 
   const editTask = useCallback(
     async (taskId, newText, newPriority) => {
-      const updatedTasks = await Promise.all(
-        tasks.map(async (task) => {
-          if (task.id !== taskId) return task;
+      const updatedTasks = tasks.map((task) => {
+        if (task.id !== taskId) return task;
 
-          const updatedTask = {
-            ...task,
-            text: newText,
-            priority: newPriority || task.priority,
-          };
+        const updatedTask = {
+          ...task,
+          text: newText,
+          priority: newPriority || task.priority,
+        };
 
-          // Update notification if task is not completed and has notification
-          if (!updatedTask.completed && task.notificationId) {
-            // Cancel old notification
-            cancelTaskNotification(task.notificationId);
-
-            // Schedule new notification with updated text
-            const notificationId = await scheduleNotificationForTask(
-              updatedTask
-            );
-            updatedTask.notificationId = notificationId;
-          }
-
-          return updatedTask;
-        })
-      );
+        return updatedTask;
+      });
 
       setTasks(updatedTasks);
       await saveTasksToStorage(updatedTasks);
     },
-    [
-      tasks,
-      cancelTaskNotification,
-      scheduleNotificationForTask,
-      saveTasksToStorage,
-    ]
+    [tasks, saveTasksToStorage]
   );
 
   // Optimized filtering and sorting

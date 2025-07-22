@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import TaskScreen from "./src/screens/taskScreen";
-import ToastManager from "./src/components/toastManager";
+import ToastManager from "./src/components/toastManager/toastManager";
 import { Colors } from "./src/constants/colors";
 import { Strings } from "./src/constants/strings";
 
