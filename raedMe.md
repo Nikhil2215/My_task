@@ -70,3 +70,5 @@ trigger: {
 ```
 
 ### All bonus points are Done
+
+### APK and ScreenShots are also available in projectAPK folder
